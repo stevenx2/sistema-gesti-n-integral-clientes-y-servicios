@@ -8,9 +8,9 @@ class cliente:
         self.verifivar_nombre(nombre)
         self.verificar_email(email)
         self.verificar_telefono(telefono)
-"""
-funciones para verificar los nombres, y datos de cada cliente, mas validaciones de error especificas
-"""
+    """
+    funciones para verificar los nombres, y datos de cada cliente, mas validaciones de error especificas
+    """
     def verificar_nombre(self,nombre):
         if not nombre or not nombre.strip():
             raise ErrorValidacion("El nombre no puede estar vacío")
