@@ -1,11 +1,16 @@
 from errores import ErrorValidacion
 
+"""
+clase maneja todos los clientes del sistema
+"""
 class cliente:
     def __init__(self,nombre,email,telefono):
         self.verifivar_nombre(nombre)
         self.verificar_email(email)
         self.verificar_telefono(telefono)
-
+"""
+funciones para verificar los nombres, y datos de cada cliente, mas validaciones de error especificas
+"""
     def verificar_nombre(self,nombre):
         if not nombre or not nombre.strip():
             raise ErrorValidacion("El nombre no puede estar vacío")
@@ -37,7 +42,9 @@ class cliente:
 
         self.telefono = telefono.strip()
 
-
+"""
+funciones para obtener datos de clientes
+"""
 def obtener_nombre(self):
     return self.nombre
 
