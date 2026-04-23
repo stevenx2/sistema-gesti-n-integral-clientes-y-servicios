@@ -334,7 +334,7 @@ class Aplicacion:
                         # listo servicios y pido la elección de uno para asignar a la reserva
                         for s in self._servicios:
                             indice = self._servicios.index(s) +1
-                            print(f"""{indice}. {s.describir_servicio()}""") # aquí listo una reserva
+                            print(f"""{indice}. {s.descripcion_servicio()}""") # aquí listo una reserva
                             indice_str = str(indice)
                             indices_permitidos.append(indice_str)
 
