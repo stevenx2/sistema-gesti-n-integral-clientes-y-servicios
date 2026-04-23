@@ -48,7 +48,7 @@ class Servicio(ABC):
     @abstractmethod
     def descripcion_servicio(self):
         pass
-    
+
 
 
 
@@ -104,7 +104,9 @@ class ServicioReservaSala(Servicio):
                    f"------------------------------------"
 
 
-    class ServicioAlquilerEquipo(Servicio):
+
+
+class ServicioAlquilerEquipo(Servicio):
     """
     Servicio de alquiler de equipos.
     """
