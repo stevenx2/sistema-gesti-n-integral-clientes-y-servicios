@@ -1,5 +1,6 @@
 from clientes import cliente
 from textos_aplicacion import RecursosTexto
+import datetime
 from errores import ErrorSistema
 from errores import ErrorValidacion
 from reserva import Reserva
@@ -20,8 +21,9 @@ def registrar_log(mensaje):
     """
     método que registra logs en archivo 'logs.txt'
     """
+    fecha_hora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open("logs.txt", "a", encoding="utf-8") as archivo:
-        archivo.write(f"{mensaje}\n")
+        archivo.write(f"[{fecha_hora}]{mensaje}\n")
 
 
 
@@ -60,7 +62,7 @@ class Aplicacion:
          if opciones_validas and opcion not in opciones_validas:
             print(f"{mensaje_error}\n")
             mensaje_error_log = mensaje_error.strip()
-            registrar_log(f"{mensaje_error_log}")
+            registrar_log(f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}]{mensaje_error_log}")
             continue
 
          return opcion
@@ -223,6 +225,30 @@ class Aplicacion:
                     """
                     crear cliente
                     """
+                    while True:
+
+                   # Pide los datos del cliente por consola      
+
+                        nombre = input(self._recursos_texto.PEDIR_NOMBRE_CLIENTE).strip()
+
+                        email = input(self._recursos_texto.PEDIR_EMAIL_CLIENTE).strip()
+                        
+                        telefono = input(self._recursos_texto.PEDIR_TELEFONO_CLIENTE).strip()
+
+                        try:
+                            cliente = cliente(nombre,email,telefono)
+                        except ErrorSistema as e:
+                            registrar_log(f"Error al crear cliente: {str(e)}")
+                            print(f"Error: {str(e)}\n")
+                            continue
+
+                        else:
+                            self._clientes.append(cliente)
+                            print(self._recursos_texto.MENSAJE_CLIENTE_REGISTRADO)
+                            break
+
+                    
+
                     pass
 
 
@@ -400,9 +426,24 @@ class Aplicacion:
 
 
                 case "8":
+                    
                     """
-                    listar clientes
+                    lista clientes
                     """
+
+                    print(self._recursos_texto.TITULO_LISTADO_CLIENTES)
+
+                    #mensaje en caso de lista vacia
+                    if not self._clientes:
+                        print(self._recursos_texto.MENSAJE_LISTADO_CLIENTES_VACIO)
+
+                    # listar clientes si la lista tiene elementos
+                    else:
+                     for i in self._clientes:
+                         indice = self._clientes.index(i) + 1
+
+                         print(f"""\n{indice}. {i.descripcion()}""")
+
 
                     pass
 
