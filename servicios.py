@@ -87,6 +87,10 @@ class ServicioReservaSala(Servicio):
         return costo_final
 
 
+
+
+
+
     def descripcion_servicio(self) -> str:
        descripcion_base = f"--- Servicio de Reserva de Sala ---\n" \
                            f"  Nombre: {self.nombre}\n" \
@@ -102,6 +106,18 @@ class ServicioReservaSala(Servicio):
             return descripcion_base + \
                    f"  Costo: Debe calcularse primero (llame a calcular_costo).\n" \
                    f"------------------------------------"
+
+
+    """
+    creé estos métodos para obtener los datos del servicio. útil para procesar una reserva
+    """
+
+    def obtener_horas_reservas(self):
+        return self._horas_reserva
+
+
+    def obtener_valor_descuento(self):
+        self._descuento
 
 
 
@@ -139,22 +155,21 @@ class ServicioAlquilerEquipo(Servicio):
         cantidad: total de equipos de ese tipo
         impuesto: número entre 0 y 100 que representa el porcentaje de impuestos
         """
-        try:
-            self.validar_disponibilidad() #si no está disponible lanza una excepción
-            self.validar_parametros(dias, cantidad)
 
-            if impuestos < 0 or impuestos > 100:
-                raise ErrorValidacion(f"error en {self.__class__.__name__}: El impuesto debe estar entre 0 y 100")
+        self.validar_disponibilidad() #si no está disponible lanza una excepción
+        self.validar_parametros(dias, cantidad)
 
-            self._impuestos = impuestos
+        if impuestos < 0 or impuestos > 100:
+            raise ErrorValidacion(f"error en {self.__class__.__name__}: El impuesto debe estar entre 0 y 100")
 
-            costo = dias * cantidad * self.precio
-            costo += costo * (impuestos / 100) # sumo el impuesto
+        self._impuestos = impuestos
 
-            return costo
+        costo = dias * cantidad * self.precio
+        costo += costo * (impuestos / 100) # sumo el impuesto
 
-        except Exception as e:
-            raise ErrorSistema("Error al calcular costo de alquiler") from e
+        return costo
+
+
 
 
     """
@@ -211,21 +226,20 @@ class ServicioAsesoria(Servicio):
         urgencia: True si es de urgencia. se simula un aumento del 20% del precio final en caso de que es un servicio
         al que se le tiene que dar prioridad
         """
-        try:
-            self.validar_disponibilidad()
-            self.validar_parametros(horas)
 
-            costo = horas * self.precio
+        self.validar_disponibilidad()
+        self.validar_parametros(horas)
 
-            if urgencia:
-                costo *= 1.2
+        costo = horas * self.precio
 
-            self._urgencia = urgencia
+        if urgencia:
+            costo *= 1.2
 
-            return costo
+        self._urgencia = urgencia
 
-        except Exception as e:
-            raise ErrorSistema("Error al calcular costo de asesoría") from e
+        return costo
+
+        
 
 
 

@@ -396,8 +396,68 @@ class Aplicacion:
                     """
                     procesar reserva
                     """
+                    print(self._recursos_texto.TITULO_PROCESAMIENTO_RESERVA)
 
-                    pass
+
+                    # muestro mensaje si no hay reservas
+                    if not self._reservas:
+                        print(self._recursos_texto.MENSAJE_LISTA_RESERVAS_VACIA)
+
+                    # listo las reservas y pido que el usuario elija una opción
+                    else:
+
+                     indices_permitidos = []
+
+                     for r in self._reservas:
+                         indice = self._reservas.index(r) + 1
+
+                         print(f"""{indice}. {r.mostrar()}""")
+                         indice_str = str(indice)
+                         indices_permitidos.append(indice_str)
+
+
+                     indice_reserva = self._pedir_opcion(
+                         opciones_validas=indices_permitidos,
+                         mensaje_error=self._recursos_texto.MENSAJE_ERROR_SELECCION_RESERVA,
+                         mensaje=self._recursos_texto.PEDIR_SELECCION_RESERVA)
+
+
+
+                     try:
+                         """
+                         dependiendo la instancia del servicio de esta reserva, lo proceso
+                         """
+                         indice_reserva = int(indice_reserva) -1
+                         reserva = self._reservas[indice_reserva]
+
+                         servicio = reserva.obtener_servicio()
+
+                         if isinstance(servicio,ServicioReservaSala):
+                           reserva.procesar(servicio.obtener_horas_reservas(),descuento=servicio.obtener_valor_descuento())
+
+
+                         elif isinstance(servicio,ServicioAlquilerEquipo):
+                            reserva.procesar(servicio.obtener_dias_alquiler(),servicio.obtener_cantidad(),impuestos=servicio.obtener_impuestos())
+
+
+                         elif isinstance(servicio,ServicioAsesoria):
+                            reserva.procesar(servicio.obtener_horas(), urgencia=servicio.obtener_urgencia())
+
+
+                         print(self._recursos_texto.MENSAJE_RESERVA_PROCESADA)
+
+
+                     except ValueError as err:
+                         print(self._recursos_texto.MENSAJE_ERROR_PROCESAR_RESERVA)
+
+                     except ErrorSistema as err:
+                          """
+                          esta excepción es lanzada por el método procesar() de reserva cuando se quiere procesar una reserva que tiene un servicio inhabilitado
+                          """
+                          registrar_log(err)
+                          print(f"""{err}.""")
+
+
 
 
 
@@ -407,7 +467,46 @@ class Aplicacion:
                     """
                     cancelar reserva
                     """
-                    pass
+                    print(self._recursos_texto.TITULO_CANCELACION_RESERVA)
+
+
+
+                    if not self._reservas:
+                        print(self._recursos_texto.MENSAJE_LISTA_RESERVAS_VACIA)
+
+
+                    else:
+
+                     indices_permitidos = []
+
+                     for r in self._reservas:
+                         indice = self._reservas.index(r) + 1
+                         print(f"""{indice}. {r.mostrar()}""")
+                         indice_str = str(indice)
+                         indices_permitidos.append(indice_str)
+
+
+                     indice_reserva = self._pedir_opcion(
+                         opciones_validas=indices_permitidos,
+                         mensaje_error=self._recursos_texto.MENSAJE_ERROR_SELECCION_RESERVA,
+                         mensaje=self._recursos_texto.PEDIR_SELECCION_RESERVA_A_CANCELAR )
+
+
+                     try:
+                         indice_reserva = int(indice_reserva) -1
+                         reserva = self._reservas[indice_reserva]
+
+                         reserva.cancelar() # cancelar la reserva
+
+                         print(self._recursos_texto.MENSAJE_RESERVA_CANCELADA)
+
+
+                     except ValueError as err:
+                         print(self._recursos_texto.MENSAJE_ERROR_CANCELAR_RESERVA)
+
+                     except ErrorSistema as err:
+                          registrar_log(err)
+                          print(f"""{err}.""")
 
 
 
