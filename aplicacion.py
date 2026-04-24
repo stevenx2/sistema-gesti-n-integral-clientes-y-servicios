@@ -1,4 +1,4 @@
-from clientes import cliente
+from clientes import Cliente
 from textos_aplicacion import RecursosTexto
 import datetime
 from errores import ErrorSistema
@@ -35,7 +35,7 @@ class Aplicacion:
     """
 
     def __init__(self,datos_iniciales = False):
-        self._clientes: list[cliente] = []
+        self._clientes: list[Cliente] = []
         self._reservas:list[Reserva] = []
         self._servicios:list[Servicio] = []
         self._recursos_texto = RecursosTexto()
@@ -62,7 +62,7 @@ class Aplicacion:
          if opciones_validas and opcion not in opciones_validas:
             print(f"{mensaje_error}\n")
             mensaje_error_log = mensaje_error.strip()
-            registrar_log(f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}]{mensaje_error_log}")
+            registrar_log(f"{mensaje_error_log}")
             continue
 
          return opcion
@@ -177,11 +177,11 @@ class Aplicacion:
         """
         carga datos iniciales en la aplicación. solo lo usa para pruebas
         """
-        self._clientes.append(cliente("clienteUno", "cliente1@gmail.com", "1111111111"))
-        self._clientes.append(cliente("clienteDos", "cliente2@gmail.com", "2222222222"))
-        self._clientes.append(cliente("clienteTres", "cliente3@gmail.com", "3333333333"))
-        self._clientes.append(cliente("clienteCuatro", "cliente4@gmail.com", "4444444444"))
-        self._clientes.append(cliente("clienteCinco", "cliente5@gmail.com", "5555555555"))
+        self._clientes.append(Cliente("clienteUno", "cliente1@gmail.com", "1111111111"))
+        self._clientes.append(Cliente("clienteDos", "cliente2@gmail.com", "2222222222"))
+        self._clientes.append(Cliente("clienteTres", "cliente3@gmail.com", "3333333333"))
+        self._clientes.append(Cliente("clienteCuatro", "cliente4@gmail.com", "4444444444"))
+        self._clientes.append(Cliente("clienteCinco", "cliente5@gmail.com", "5555555555"))
 
         servicio1 = ServicioAlquilerEquipo("alquiler de tecnología de última generación","Computador")
         servicio1.calcular_costo(2,10)
@@ -227,16 +227,16 @@ class Aplicacion:
                     """
                     while True:
 
-                   # Pide los datos del cliente por consola      
+                   # Pide los datos del cliente por consola
 
                         nombre = input(self._recursos_texto.PEDIR_NOMBRE_CLIENTE).strip()
 
                         email = input(self._recursos_texto.PEDIR_EMAIL_CLIENTE).strip()
-                        
+
                         telefono = input(self._recursos_texto.PEDIR_TELEFONO_CLIENTE).strip()
 
                         try:
-                            cliente = cliente(nombre,email,telefono)
+                            cliente = Cliente(nombre,email,telefono)
                         except ErrorSistema as e:
                             registrar_log(f"Error al crear cliente: {str(e)}")
                             print(f"Error: {str(e)}\n")
@@ -247,9 +247,6 @@ class Aplicacion:
                             print(self._recursos_texto.MENSAJE_CLIENTE_REGISTRADO)
                             break
 
-                    
-
-                    pass
 
 
 
@@ -426,7 +423,7 @@ class Aplicacion:
 
 
                 case "8":
-                    
+
                     """
                     lista clientes
                     """
@@ -442,10 +439,8 @@ class Aplicacion:
                      for i in self._clientes:
                          indice = self._clientes.index(i) + 1
 
-                         print(f"""\n{indice}. {i.descripcion()}""")
+                         print(f"""\n{indice}. {i.descripcion_cliente()}""")
 
-
-                    pass
 
 
 
@@ -453,18 +448,18 @@ class Aplicacion:
                      """
                      habilitar servicio
                      """
-            
+
                      print(self._recursos_texto.TITULO_HABILITAR_SERVICIO)
 
                      if not self._servicios:
                          print(self._recursos_texto.MENSAJE_LISTADO_SERVICIOS_VACIO)
                          continue
-                     
+
                      indices_permitidos = []
-                     print(self._recursos_texto.MENSAJE_SELECCION_SERVICIO) 
+                     print(self._recursos_texto.MENSAJE_SELECCION_SERVICIO)
                      for s in self._servicios:
                          indice = self._servicios.index(s) + 1
-                         print(f"""{indice}. {s.descripcion_servicio()}""") 
+                         print(f"""{indice}. {s.descripcion_servicio()}""")
                          indice_str = str(indice)
                          indices_permitidos.append(indice_str)
 
@@ -475,7 +470,7 @@ class Aplicacion:
                              mensaje_error=self._recursos_texto.MENSAJE_ERROR_SELECCION_SERVICIO
                          )
 
-                    
+
                          indice_servicio = int(opcion_servicio) - 1
                          servicio_a_habilitar = self._servicios[indice_servicio]
                          servicio_a_habilitar.activar()
@@ -502,7 +497,7 @@ class Aplicacion:
                     """
                     deshabilitar servicio
                     """
-        
+
                     print(self._recursos_texto.TITULO_DESHABILITAR_SERVICIO)
 
                     if not self._servicios:
@@ -514,7 +509,7 @@ class Aplicacion:
                     print(self._recursos_texto.MENSAJE_SELECCION_SERVICIO)
                     for s in self._servicios:
                         indice = self._servicios.index(s) + 1
-                        print(f"""{indice}. {s.descripcion_servicio()}""") 
+                        print(f"""{indice}. {s.descripcion_servicio()}""")
                         indice_str = str(indice)
                         indices_permitidos.append(indice_str)
 
@@ -525,7 +520,7 @@ class Aplicacion:
                             mensaje_error=self._recursos_texto.MENSAJE_ERROR_SELECCION_SERVICIO
                         )
 
-                    
+
                         indice_servicio = int(opcion_servicio) - 1
                         servicio_a_deshabilitar = self._servicios[indice_servicio]
                         servicio_a_deshabilitar.desactivar()

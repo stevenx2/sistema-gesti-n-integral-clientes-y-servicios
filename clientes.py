@@ -3,7 +3,7 @@ from errores import ErrorValidacion
 """
 clase maneja todos los clientes del sistema
 """
-class cliente:
+class Cliente:
     def __init__(self,nombre,email,telefono):
         self.verificar_nombre(nombre)
         self.verificar_email(email)

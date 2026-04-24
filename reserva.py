@@ -1,4 +1,4 @@
-from clientes import cliente
+from clientes import Cliente
 from servicios import Servicio
 from errores import ErrorSistema
 from errores import ErrorValidacion
@@ -26,7 +26,7 @@ class Reserva:
     estado: estado de la reserva. puede ser 'pendiente' (por defecto), 'confirmada' (cuando se procesa), 'cancelada' (cuando se procesa y luego se cancela) o 'fallida' (cuando se intentó procesar pero ocurrió un error)
     costo: cuando se procesa se calcula el precio de la reserva. en realidad el precio ya se podría saber pero lo hago para simular que el procesamiento calcula el precio
     """
-    def __init__(self,cliente:cliente,servicio:Servicio):
+    def __init__(self,cliente:Cliente,servicio:Servicio):
         self._cliente = cliente
         self._servicio = servicio
         self._estado = "pendiente"
