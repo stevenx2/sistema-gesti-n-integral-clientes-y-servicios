@@ -97,12 +97,15 @@ class Aplicacion:
                  mensaje_descuento = self._recursos_texto.obtener_mensaje_descuento_sala(servicio.calcular_costo(horas_alquiler))
 
                  descuento = int(input(mensaje_descuento))
-                 costo = servicio.calcular_costo(horas_alquiler,descuento)
 
-                 if costo < 0:
+                 """
+                 lanzar excepción en caso que el descuento es mayor al precio base
+                 """
+                 if descuento > servicio.calcular_costo(horas_alquiler):
                      raise ErrorValidacion(f"""error en {self.__class__.__name__}:el valor del descuento no puede ser mayor al precio del servicio""")
 
-
+                 #calculo el precio para que los atributos de la clase se actualizen
+                 servicio.calcular_costo(horas_alquiler,descuento=descuento)
 
                  return servicio
 

@@ -117,7 +117,7 @@ class ServicioReservaSala(Servicio):
 
 
     def obtener_valor_descuento(self):
-        self._descuento
+        return self._descuento
 
 
 
@@ -239,7 +239,7 @@ class ServicioAsesoria(Servicio):
 
         return costo
 
-        
+
 
 
 
