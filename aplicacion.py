@@ -114,7 +114,13 @@ class Aplicacion:
                     """
                     listar los servicios registrados
                     """
-                    pass
+                    print(self._recursos_texto.TITULO_LISTADO_SERVICIOS)
+
+                    if not self._servicios:
+                        print(self._recursos_texto.MENSAJE_LISTADO_SERVICIOS_VACIO)
+                    else:
+                        for i, servicio in enumerate(self._servicios, start=1):
+                            print(f"{i}. {servicio.descripcion_servicio()}")
 
 
 
@@ -228,7 +234,13 @@ class Aplicacion:
                     listar reservas
                     """
 
-                    pass
+                    print(self._recursos_texto.TITULO_LISTADO_RESERVAS)
+
+                    if not self._reservas:
+                        print(self._recursos_texto.MENSAJE_LISTA_RESERVAS_VACIA)
+                    else:
+                        for i, reserva in enumerate(self._reservas, start=1):
+                            print(f"\n{i}. {reserva.mostrar()}")
 
 
 
