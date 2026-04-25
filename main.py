@@ -10,6 +10,6 @@ integrantes:
 """
 
 
-app = Aplicacion(datos_iniciales=True)
+app = Aplicacion(datos_iniciales=False)
 
 app.iniciar()
